@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    Work in Japan Factory Guide favicon
+    Design: Japanese Hinomaru (red circle) + industrial gear
+    Colors: #BC002D (Japan red) / #888888 (metal gray) / #ffffff (white)
+  -->
+
+  <!-- Gear body: 8-tooth polygon (4 points per tooth, 32 points total) -->
+  <!-- Tooth tip radius: 14.5 | Tooth root radius: 11 | Each tooth half-angle: 11.25° -->
+  <polygon
+    points="
+      26.79,13.85 30.22,13.17 30.22,18.83 26.79,18.15
+      25.15,22.11 28.06,24.06 24.06,28.06 22.11,25.15
+      18.15,26.79 18.83,30.22 13.17,30.22 13.85,26.79
+       9.89,25.15  7.94,28.06  3.94,24.06  6.85,22.11
+       5.21,18.15  1.78,18.83  1.78,13.17  5.21,13.85
+       6.85, 9.89  3.94, 7.94  7.94, 3.94  9.89, 6.85
+      13.85, 5.21 13.17, 1.78 18.83, 1.78 18.15, 5.21
+      22.11, 6.85 24.06, 3.94 28.06, 7.94 25.15, 9.89
+    "
+    fill="#888888"
+    stroke="#5a5a5a"
+    stroke-width="0.4"
+    stroke-linejoin="round"
+  />
+
+  <!-- Center hole (white) — inner radius 8 -->
+  <circle cx="16" cy="16" r="8" fill="#ffffff"/>
+
+  <!-- Hinomaru — Japanese flag red, radius 5.5 -->
+  <circle cx="16" cy="16" r="5.5" fill="#BC002D"/>
+</svg>
