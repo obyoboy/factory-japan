@@ -7,7 +7,7 @@ const { spawnSync } = require("node:child_process");
 
 const DEFAULT_TOPIC_OUTPUT = path.join("drafts", "topic.json");
 const DEFAULT_ARTICLE_INPUT = path.join("drafts", "article.json");
-const ARTICLE_SKILL_PATH = ".claude/skills/write-article/SKILL.md";
+const DEFAULT_ARTICLE_SKILL_PATH = ".claude/skills/generate-article/SKILL.md";
 const ARCHIVE_ARTICLES_DIR = path.join("archive", "articles");
 const ARCHIVE_TOPICS_DIR = path.join("archive", "topics");
 const SCRIPTS = {
@@ -23,6 +23,9 @@ function parseArgs(argv) {
     articleInput: DEFAULT_ARTICLE_INPUT,
     skipBuildPublished: false,
     generateWithClaude: false,
+    waitForArticle: false,
+    skillPath: DEFAULT_ARTICLE_SKILL_PATH,
+    claudeTimeoutMs: 420000,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -50,13 +53,38 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (arg === "--wait-for-article") {
+      options.waitForArticle = true;
+      continue;
+    }
+
+    if (arg === "--skill") {
+      options.skillPath = readOptionValue(argv, index, "--skill");
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--claude-timeout-ms") {
+      const timeoutText = readOptionValue(argv, index, "--claude-timeout-ms");
+      const parsed = Number.parseInt(timeoutText, 10);
+      if (!Number.isFinite(parsed) || parsed <= 0) {
+        throw new Error("--claude-timeout-ms must be a positive integer.");
+      }
+      options.claudeTimeoutMs = parsed;
+      index += 1;
+      continue;
+    }
+
     throw new Error(
       "Unknown argument: " +
         `${arg}\nUsage: node scripts/run-pipeline.js ` +
         "[--topic-output drafts/topic.json] " +
         "[--article-input drafts/article.json] " +
         "[--skip-build-published] " +
-        "[--generate-with-claude]"
+        "[--generate-with-claude] " +
+        "[--wait-for-article] " +
+        "[--skill .claude/skills/generate-article/SKILL.md] " +
+        "[--claude-timeout-ms 420000]"
     );
   }
 
@@ -102,9 +130,11 @@ function runCommand(command, args, options = {}) {
   const cwd = options.cwd || process.cwd();
   const allowedExitCodes = options.allowedExitCodes || [0];
   const printOutput = options.printOutput !== false;
+  const timeout = options.timeoutMs;
   const result = spawnSync(command, args, {
     cwd,
     encoding: "utf8",
+    timeout,
   });
 
   if (printOutput && result.stdout) {
@@ -115,6 +145,15 @@ function runCommand(command, args, options = {}) {
   }
 
   if (result.error) {
+    if (result.error.code === "ETIMEDOUT") {
+      const error = new Error(
+        `Command timed out after ${timeout} ms: ${formatCommand(command, args)}`
+      );
+      error.exitCode = 1;
+      error.spawnErrorCode = result.error.code;
+      throw error;
+    }
+
     const error = new Error(
       `Failed to start command: ${formatCommand(command, args)}\nReason: ${result.error.message}`
     );
@@ -140,11 +179,25 @@ function runCommand(command, args, options = {}) {
   return result;
 }
 
-function isWindowsNodeSpawnPermissionError(error) {
+function isWindowsSpawnPermissionError(error) {
   if (!error || typeof error.message !== "string") {
     return false;
   }
   return process.platform === "win32" && /EPERM/i.test(error.message);
+}
+
+function runCommandWithWindowsCmdFallback(command, args, options = {}) {
+  try {
+    return runCommand(command, args, options);
+  } catch (error) {
+    if (!isWindowsSpawnPermissionError(error)) {
+      throw error;
+    }
+
+    const cmdExecutable = process.env.ComSpec || "cmd.exe";
+    const cmdText = formatWindowsCmdCommand(command, args);
+    return runCommand(cmdExecutable, ["/d", "/s", "/c", cmdText], options);
+  }
 }
 
 function runNodeScript(repoRoot, scriptRelativePath, scriptArgs) {
@@ -154,17 +207,7 @@ function runNodeScript(repoRoot, scriptRelativePath, scriptArgs) {
   }
 
   const nodeArgs = [scriptPath, ...scriptArgs];
-  try {
-    runCommand(process.execPath, nodeArgs, { cwd: repoRoot });
-  } catch (error) {
-    if (!isWindowsNodeSpawnPermissionError(error)) {
-      throw error;
-    }
-
-    const cmdExecutable = process.env.ComSpec || "cmd.exe";
-    const cmdText = formatWindowsCmdCommand(process.execPath, nodeArgs);
-    runCommand(cmdExecutable, ["/d", "/s", "/c", cmdText], { cwd: repoRoot });
-  }
+  runCommandWithWindowsCmdFallback(process.execPath, nodeArgs, { cwd: repoRoot });
 }
 
 function runStep(stepId, description, completedSteps, action) {
@@ -218,14 +261,18 @@ function warnArticleTopicFreshness(topicPath, articlePath) {
   }
 }
 
-function printClaudeInstructions(repoRoot, topicPath, articlePath) {
+function printClaudeInstructions(repoRoot, skillRelativePath, topicPath, articlePath) {
   const topicDisplay = path.relative(repoRoot, topicPath);
   const articleDisplay = path.relative(repoRoot, articlePath);
+  const skillDisplay = toPromptPath(
+    repoRoot,
+    path.resolve(repoRoot, skillRelativePath)
+  );
 
   console.log("");
   console.log("Pipeline paused. Next step (Claude Code):");
   console.log(
-    `Read \`${topicDisplay}\` and use \`${ARTICLE_SKILL_PATH}\` to generate \`${articleDisplay}\`.`
+    `Read \`${topicDisplay}\` and use \`${skillDisplay}\` to generate \`${articleDisplay}\`.`
   );
   console.log(`Save valid JSON only to \`${articleDisplay}\`.`);
   console.log("Do not modify any other files.");
@@ -238,8 +285,8 @@ function toPromptPath(repoRoot, absolutePath) {
   return path.relative(repoRoot, absolutePath).replace(/\\/g, "/");
 }
 
-function assertArticleSkillExists(repoRoot) {
-  const skillPath = path.join(repoRoot, ARTICLE_SKILL_PATH);
+function assertArticleSkillExists(repoRoot, skillRelativePath) {
+  const skillPath = path.join(repoRoot, skillRelativePath);
   if (fs.existsSync(skillPath)) {
     return;
   }
@@ -258,25 +305,112 @@ function assertArticleSkillExists(repoRoot) {
   }
 
   throw new Error(
-    `Article skill file not found: ${ARTICLE_SKILL_PATH}${availableSkillsMessage}`
+    `Article skill file not found: ${skillRelativePath}${availableSkillsMessage}`
   );
 }
 
-function buildClaudePrompt(repoRoot, topicPath, articlePath) {
+function readTextFile(filePath, label) {
+  try {
+    return fs.readFileSync(filePath, "utf8");
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new Error(`${label} not found: ${filePath}`);
+    }
+    throw new Error(`Failed to read ${label} (${filePath}): ${error.message}`);
+  }
+}
+
+function buildClaudePrompt(
+  repoRoot,
+  skillRelativePath,
+  topicPath,
+  articlePath,
+  skillText,
+  topicText
+) {
+  const skillDisplay = toPromptPath(
+    repoRoot,
+    path.resolve(repoRoot, skillRelativePath)
+  );
   const topicDisplay = toPromptPath(repoRoot, topicPath);
   const articleDisplay = toPromptPath(repoRoot, articlePath);
 
   return (
-    `Read \`${topicDisplay}\` and follow \`${ARTICLE_SKILL_PATH}\`.\n\n` +
-    "Requirements:\n" +
-    "- Follow the required schema strictly.\n" +
-    "- Return one valid JSON object via stdout only.\n" +
-    "- Do not write or modify any files yourself.\n" +
-    "- Do not include markdown code fences or extra commentary.\n" +
-    "- Keep EN as the source meaning, and make TL/VI natural translations.\n" +
-    `- The JSON should be ready to save as \`${articleDisplay}\`.\n` +
-    "- Do not modify any other files."
+    `Follow the skill instructions and generate article JSON.\n\n` +
+    `## Skill (${skillDisplay})\n\n` +
+    `${skillText.trim()}\n\n` +
+    "---\n\n" +
+    `## Input Topic (${topicDisplay})\n\n` +
+    `${topicText.trim()}\n\n` +
+    "---\n\n" +
+    "## Output requirements\n\n" +
+    "- Return exactly one valid JSON object via stdout only.\n" +
+    "- Do not include markdown code fences.\n" +
+    "- Do not include explanation or any extra text.\n" +
+    "- Keep EN as source meaning and TL/VI as natural translations.\n" +
+    `- The JSON must be ready to save as \`${articleDisplay}\`.\n` +
+    "- Do not modify any files."
   );
+}
+
+function stripMarkdownCodeFence(text) {
+  const trimmed = String(text || "").trim();
+  const withoutStart = trimmed.replace(/^```(?:json)?\s*/i, "");
+  return withoutStart.replace(/\s*```$/, "").trim();
+}
+
+function extractFirstJsonObject(text) {
+  const source = String(text || "");
+  let start = -1;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let index = 0; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (start === -1) {
+      if (char === "{") {
+        start = index;
+        depth = 1;
+      }
+      continue;
+    }
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+      if (char === "\\") {
+        escaped = true;
+        continue;
+      }
+      if (char === '"') {
+        inString = false;
+      }
+      continue;
+    }
+
+    if (char === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (char === "{") {
+      depth += 1;
+      continue;
+    }
+
+    if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        return source.slice(start, index + 1);
+      }
+    }
+  }
+
+  return null;
 }
 
 function parseClaudeJsonOutput(stdoutText) {
@@ -287,13 +421,35 @@ function parseClaudeJsonOutput(stdoutText) {
     );
   }
 
-  try {
-    return JSON.parse(normalized);
-  } catch (error) {
-    throw new Error(
-      "Claude output was not valid JSON. Ensure it returns JSON only to stdout without extra explanation."
-    );
+  const candidates = [];
+  candidates.push(normalized);
+
+  const unfenced = stripMarkdownCodeFence(normalized);
+  if (unfenced && unfenced !== normalized) {
+    candidates.push(unfenced);
   }
+
+  const extractedFromNormalized = extractFirstJsonObject(normalized);
+  if (extractedFromNormalized && !candidates.includes(extractedFromNormalized)) {
+    candidates.push(extractedFromNormalized);
+  }
+
+  const extractedFromUnfenced = extractFirstJsonObject(unfenced);
+  if (extractedFromUnfenced && !candidates.includes(extractedFromUnfenced)) {
+    candidates.push(extractedFromUnfenced);
+  }
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate);
+    } catch (error) {
+      // Try next candidate.
+    }
+  }
+
+  throw new Error(
+    "Claude output was not valid JSON. Ensure it returns JSON only to stdout without extra explanation."
+  );
 }
 
 function saveArticleJson(articlePath, articleData) {
@@ -303,9 +459,59 @@ function saveArticleJson(articlePath, articleData) {
   fs.writeFileSync(articlePath, text, "utf8");
 }
 
-function runClaudeGenerate(repoRoot, topicPath, articlePath) {
-  assertArticleSkillExists(repoRoot);
+function summarizeCommandError(error) {
+  const text =
+    error && typeof error.message === "string" ? error.message.trim() : String(error || "");
+  if (text === "") {
+    return "Unknown error.";
+  }
+
+  const reasonMatch = text.match(/\nReason:\s*([\s\S]*)$/);
+  if (reasonMatch && reasonMatch[1]) {
+    return reasonMatch[1].trim();
+  }
+
+  const outputMatch = text.match(/\nOutput:\s*([\s\S]*)$/);
+  if (outputMatch && outputMatch[1]) {
+    return outputMatch[1].trim();
+  }
+
+  const lines = text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  return lines.length > 0 ? lines[lines.length - 1] : text;
+}
+
+function throwClaudeInvocationError(error, claudeTimeoutMs) {
+  if (error.commandNotFound) {
+    throw new Error(
+      'Claude Code CLI command "claude" was not found in PATH.\n' +
+        "Please ensure Claude Code is installed and accessible (example: claude --version)."
+    );
+  }
+  if (error.spawnErrorCode === "ETIMEDOUT") {
+    throw new Error(
+      `Claude generation timed out after ${claudeTimeoutMs} ms.\n` +
+        "Try increasing --claude-timeout-ms, and check Claude authentication with: claude auth status"
+    );
+  }
+  throw error;
+}
+
+function runClaudeGenerate(
+  repoRoot,
+  skillRelativePath,
+  topicPath,
+  articlePath,
+  claudeTimeoutMs
+) {
+  assertArticleSkillExists(repoRoot, skillRelativePath);
   assertFileExists(topicPath, "topic output");
+
+  const skillAbsolutePath = path.resolve(repoRoot, skillRelativePath);
+  const skillText = readTextFile(skillAbsolutePath, "article skill file");
+  const topicText = readTextFile(topicPath, "topic output");
 
   if (fs.existsSync(articlePath)) {
     console.warn(
@@ -317,21 +523,57 @@ function runClaudeGenerate(repoRoot, topicPath, articlePath) {
     warnArticleTopicFreshness(topicPath, articlePath);
   }
 
-  const prompt = buildClaudePrompt(repoRoot, topicPath, articlePath);
-  let result;
+  const prompt = buildClaudePrompt(
+    repoRoot,
+    skillRelativePath,
+    topicPath,
+    articlePath,
+    skillText,
+    topicText
+  );
+  const claudeArgsToolsDisabled = ["-p", prompt, "--tools", ""];
+  const claudeArgsDefaultTools = ["-p", prompt];
+  let result = null;
+
   try {
-    result = runCommand("claude", ["-p", prompt], {
+    console.log(
+      `Calling Claude Code (tools disabled, timeout ${Math.round(
+        claudeTimeoutMs / 1000
+      )}s)...`
+    );
+    result = runCommandWithWindowsCmdFallback("claude", claudeArgsToolsDisabled, {
       cwd: repoRoot,
       printOutput: false,
+      timeoutMs: claudeTimeoutMs,
     });
-  } catch (error) {
-    if (error.commandNotFound) {
+  } catch (primaryError) {
+    if (primaryError.commandNotFound || primaryError.spawnErrorCode === "ETIMEDOUT") {
+      throwClaudeInvocationError(primaryError, claudeTimeoutMs);
+    }
+
+    console.warn(
+      "Claude invocation failed with tools disabled. Retrying without --tools for CLI compatibility..."
+    );
+    try {
+      result = runCommandWithWindowsCmdFallback("claude", claudeArgsDefaultTools, {
+        cwd: repoRoot,
+        printOutput: false,
+        timeoutMs: claudeTimeoutMs,
+      });
+    } catch (retryError) {
+      if (retryError.commandNotFound || retryError.spawnErrorCode === "ETIMEDOUT") {
+        throwClaudeInvocationError(retryError, claudeTimeoutMs);
+      }
+
+      const firstSummary = summarizeCommandError(primaryError);
+      const secondSummary = summarizeCommandError(retryError);
       throw new Error(
-        'Claude Code CLI command "claude" was not found in PATH.\n' +
-          "Please ensure Claude Code is installed and accessible (example: claude --version)."
+        "Claude invocation failed in both compatibility modes.\n" +
+          `Attempt 1 (--tools \"\"): ${firstSummary}\n` +
+          `Attempt 2 (without --tools): ${secondSummary}\n` +
+          "Check Claude authentication and environment with: claude auth status"
       );
     }
-    throw error;
   }
 
   const articleData = parseClaudeJsonOutput(result.stdout);
@@ -451,21 +693,13 @@ function assertPublishInputs(topicPath, articlePath) {
 }
 
 function runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInputPath, completedSteps) {
-  runStep("publish", "Publish article", completedSteps, () => {
-    runNodeScript(repoRoot, SCRIPTS.publish, ["--input", options.articleInput]);
-  });
-
   runStep("mark-topic-used", "Mark topic as used", completedSteps, () => {
     runNodeScript(repoRoot, SCRIPTS.markTopicUsed, ["--topic", options.topicOutput]);
   });
 
-  const archiveResult = runStep("archive-drafts", "Archive draft files", completedSteps, () =>
-    archiveDraftFiles(repoRoot, topicOutputPath, articleInputPath)
-  );
-
-  console.log("Archived files:");
-  console.log(`- ${path.relative(repoRoot, archiveResult.articleArchivePath)}`);
-  console.log(`- ${path.relative(repoRoot, archiveResult.topicArchivePath)}`);
+  runStep("publish", "Publish article", completedSteps, () => {
+    runNodeScript(repoRoot, SCRIPTS.publish, ["--input", options.articleInput]);
+  });
 }
 
 function runPipeline() {
@@ -494,7 +728,13 @@ function runPipeline() {
       "Generate article.json with Claude Code",
       completedSteps,
       () => {
-        runClaudeGenerate(repoRoot, topicOutputPath, articleInputPath);
+        runClaudeGenerate(
+          repoRoot,
+          options.skillPath,
+          topicOutputPath,
+          articleInputPath,
+          options.claudeTimeoutMs
+        );
         assertFileExists(articleInputPath, "article input");
       }
     );
@@ -515,13 +755,53 @@ function runPipeline() {
       assertFileExists(topicOutputPath, "topic output");
     });
 
-    assertArticleSkillExists(repoRoot);
+    if (options.waitForArticle) {
+      assertArticleSkillExists(repoRoot, options.skillPath);
+      console.log("");
+      console.log("Pipeline status: waiting for drafts/article.json generation.");
+      console.log(`Completed steps: ${completedSteps.join(" -> ")}`);
+      printClaudeInstructions(
+        repoRoot,
+        options.skillPath,
+        topicOutputPath,
+        articleInputPath
+      );
+      return;
+    }
+
+    runStep(
+      "generate-with-claude",
+      "Generate article.json with Claude Code",
+      completedSteps,
+      () => {
+        runClaudeGenerate(
+          repoRoot,
+          options.skillPath,
+          topicOutputPath,
+          articleInputPath,
+          options.claudeTimeoutMs
+        );
+        assertFileExists(articleInputPath, "article input");
+      }
+    );
+
+    assertPublishInputs(topicOutputPath, articleInputPath);
+    warnArticleTopicFreshness(topicOutputPath, articleInputPath);
+    runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInputPath, completedSteps);
 
     console.log("");
-    console.log("Pipeline status: waiting for drafts/article.json generation.");
+    console.log("Pipeline completed successfully.");
     console.log(`Completed steps: ${completedSteps.join(" -> ")}`);
-    printClaudeInstructions(repoRoot, topicOutputPath, articleInputPath);
     return;
+  }
+
+  if (!fs.existsSync(topicOutputPath)) {
+    throw new Error(
+      `topic output not found: ${path.relative(
+        repoRoot,
+        topicOutputPath
+      )}\nRun with --generate-with-claude, or prepare both topic/article manually.`
+    );
   }
 
   assertPublishInputs(topicOutputPath, articleInputPath);
