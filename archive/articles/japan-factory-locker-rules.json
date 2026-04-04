@@ -1,0 +1,40 @@
+{
+  "slug": "japan-factory-locker-rules",
+  "lastUpdated": "2026-04-04",
+  "readTimeMinutes": 4,
+  "languages": {
+    "en": {
+      "title": "Uniform Rules in Japanese Factories",
+      "metaDescription": "Learn the basic uniform rules many workers see in Japanese factories.",
+      "badge": "Work Rules",
+      "excerpt": "A simple guide to factory uniforms, cleaning, and what workers should check.",
+      "image": {
+        "url": "../images/articles/uniform-rules.jpg",
+        "alt": "Factory uniform used by workers in Japan"
+      },
+      "bodyHtml": "<h2>Why do factories have uniform rules?</h2><p>Many factories in Japan require workers to wear specific uniforms for safety, hygiene, and clear workplace standards.</p>"
+    },
+    "tl": {
+      "title": "Mga Patakaran sa Uniform sa Mga Pabrika sa Japan",
+      "metaDescription": "Alamin ang mga pangunahing patakaran sa uniform sa mga pabrika sa Japan.",
+      "badge": "Work Rules",
+      "excerpt": "Simpleng gabay sa uniform sa pabrika, paglilinis, at mga dapat suriin ng manggagawa.",
+      "image": {
+        "url": "../images/articles/uniform-rules.jpg",
+        "alt": "Uniform ng manggagawa sa pabrika sa Japan"
+      },
+      "bodyHtml": "<h2>Bakit may patakaran sa uniform ang mga pabrika?</h2><p>Maraming pabrika sa Japan ang nangangailangan ng partikular na uniform para sa kaligtasan, kalinisan, at malinaw na pamantayan sa trabaho.</p>"
+    },
+    "vi": {
+      "title": "Quy định đồng phục tại nhà máy Nhật Bản",
+      "metaDescription": "Tìm hiểu các quy định cơ bản về đồng phục tại nhà máy ở Nhật Bản.",
+      "badge": "Work Rules",
+      "excerpt": "Hướng dẫn ngắn gọn về đồng phục nhà máy, vệ sinh và những điều người lao động nên kiểm tra.",
+      "image": {
+        "url": "../images/articles/uniform-rules.jpg",
+        "alt": "Đồng phục công nhân nhà máy tại Nhật Bản"
+      },
+      "bodyHtml": "<h2>Vì sao nhà máy có quy định về đồng phục?</h2><p>Nhiều nhà máy ở Nhật yêu cầu người lao động mặc đồng phục cụ thể để đảm bảo an toàn, vệ sinh và tiêu chuẩn làm việc rõ ràng.</p>"
+    }
+  }
+}
