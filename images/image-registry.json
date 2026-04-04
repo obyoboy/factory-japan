@@ -30,6 +30,20 @@
       "downloadedAt": "2026-04-04T10:12:26.814Z"
     },
     {
+      "slug": "factory-earthquake-response-basics",
+      "provider": "pexels",
+      "photoId": 15861729,
+      "photoPageUrl": "https://www.pexels.com/photo/firefighters-among-destroyed-buildings-after-earthquake-15861729/",
+      "photographer": "Doruk Aksel Anıl",
+      "photographerUrl": "https://www.pexels.com/@doruk-aksel-anil-477355556",
+      "query": "Basic earthquake response for factory workers in Japan earthquake disaster response japan factory worker",
+      "file": "images/articles/factory-earthquake-response-basics.jpg",
+      "sha256": "6d4b0f5f671c4d74d6aa50662225b5912f60bf0238e6bab1ba693d4cad52a03e",
+      "width": 6240,
+      "height": 4160,
+      "downloadedAt": "2026-04-04T14:00:47.587Z"
+    },
+    {
       "slug": "factory-first-day-checklist",
       "provider": "pexels",
       "photoId": 31259251,
