@@ -44,6 +44,20 @@
       "downloadedAt": "2026-04-04T14:04:12.433Z"
     },
     {
+      "slug": "factory-defect-reporting",
+      "provider": "pexels",
+      "photoId": 31091548,
+      "photoPageUrl": "https://www.pexels.com/photo/smiling-worker-in-a-modern-textile-factory-31091548/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "How to report a defect or abnormality on the factory line defect report abnormality japan factory worker",
+      "file": "images/articles/factory-defect-reporting.jpg",
+      "sha256": "f350ffa1fa623f3dde650ff881b8eccbf5379cfc795a3fcf67ca2edcc70d10c6",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-04T14:06:38.504Z"
+    },
+    {
       "slug": "factory-earthquake-response-basics",
       "provider": "pexels",
       "photoId": 15861729,
