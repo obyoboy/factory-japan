@@ -1,11 +1,11 @@
 {
-  "id": "factory-absence-notification",
-  "category": "Work Rules",
-  "topic": "How to report an absence at a Japanese factory",
+  "id": "factory-time-card-errors",
+  "category": "Pay & Benefits",
+  "topic": "What to do if your factory time card is wrong in Japan",
   "keywords": [
-    "absence",
-    "call-in",
-    "report"
+    "time card",
+    "error",
+    "attendance"
   ],
   "priority": 10
 }
