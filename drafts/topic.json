@@ -1,11 +1,11 @@
 {
-  "id": "factory-work-instructions-how-to-read",
-  "category": "Workplace Tips",
-  "topic": "How to read work instructions and process sheets in Japanese factories",
+  "id": "factory-attendance-rules",
+  "category": "Work Rules",
+  "topic": "Attendance rules in Japanese factories",
   "keywords": [
-    "instructions",
-    "process sheet",
-    "manual"
+    "attendance",
+    "clock-in",
+    "absence"
   ],
   "priority": 10
 }

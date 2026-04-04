@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "images": [
+    {
+      "slug": "factory-attendance-rules",
+      "provider": "pexels",
+      "photoId": 36823725,
+      "photoPageUrl": "https://www.pexels.com/photo/modern-industrial-food-production-facility-interior-36823725/",
+      "photographer": "Adrien Olichon",
+      "photographerUrl": "https://www.pexels.com/@adrien-olichon-1257089",
+      "query": "Work Rules japan factory production line",
+      "file": "images/articles/factory-attendance-rules.jpg",
+      "sha256": "553a73c3994c856d268c86dc249def91d16e74f29d41343fc5b32cf277b735ef",
+      "width": 9061,
+      "height": 6031,
+      "downloadedAt": "2026-04-04T10:12:26.814Z"
+    }
+  ]
+}

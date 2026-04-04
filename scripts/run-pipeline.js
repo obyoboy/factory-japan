@@ -15,6 +15,7 @@ const SCRIPTS = {
   selectTopic: path.join("scripts", "select-topic.js"),
   publish: path.join("scripts", "publish.js"),
   markTopicUsed: path.join("scripts", "mark-topic-used.js"),
+  fetchArticleImage: path.join("scripts", "fetch-article-image.js"),
 };
 
 function parseArgs(argv) {
@@ -23,6 +24,7 @@ function parseArgs(argv) {
     articleInput: DEFAULT_ARTICLE_INPUT,
     skipBuildPublished: false,
     generateWithClaude: false,
+    fetchImageWithPexels: true,
     waitForArticle: false,
     skillPath: DEFAULT_ARTICLE_SKILL_PATH,
     claudeTimeoutMs: 420000,
@@ -50,6 +52,16 @@ function parseArgs(argv) {
 
     if (arg === "--generate-with-claude") {
       options.generateWithClaude = true;
+      continue;
+    }
+
+    if (arg === "--fetch-image-with-pexels") {
+      options.fetchImageWithPexels = true;
+      continue;
+    }
+
+    if (arg === "--skip-image-fetch") {
+      options.fetchImageWithPexels = false;
       continue;
     }
 
@@ -82,6 +94,8 @@ function parseArgs(argv) {
         "[--article-input drafts/article.json] " +
         "[--skip-build-published] " +
         "[--generate-with-claude] " +
+        "[--fetch-image-with-pexels] " +
+        "[--skip-image-fetch] " +
         "[--wait-for-article] " +
         "[--skill .claude/skills/generate-article/SKILL.md] " +
         "[--claude-timeout-ms 420000]"
@@ -499,6 +513,207 @@ function throwClaudeInvocationError(error, claudeTimeoutMs) {
   throw error;
 }
 
+function buildArticleJsonSchema() {
+  return {
+    type: "object",
+    required: ["slug", "lastUpdated", "readTimeMinutes", "languages"],
+    additionalProperties: true,
+    properties: {
+      slug: { type: "string", minLength: 1 },
+      lastUpdated: { type: "string", minLength: 1 },
+      readTimeMinutes: { type: "number" },
+      languages: {
+        type: "object",
+        required: ["en", "tl", "vi"],
+        additionalProperties: true,
+        properties: {
+          en: {
+            type: "object",
+            required: [
+              "title",
+              "metaDescription",
+              "badge",
+              "excerpt",
+              "image",
+              "bodyHtml",
+            ],
+            additionalProperties: true,
+            properties: {
+              title: { type: "string", minLength: 1 },
+              metaDescription: { type: "string", minLength: 1 },
+              badge: { type: "string", minLength: 1 },
+              excerpt: { type: "string", minLength: 1 },
+              image: {
+                type: "object",
+                required: ["url", "alt"],
+                properties: {
+                  url: { type: "string", minLength: 1 },
+                  alt: { type: "string", minLength: 1 },
+                },
+              },
+              bodyHtml: { type: "string", minLength: 1 },
+            },
+          },
+          tl: {
+            type: "object",
+            required: [
+              "title",
+              "metaDescription",
+              "badge",
+              "excerpt",
+              "image",
+              "bodyHtml",
+            ],
+            additionalProperties: true,
+            properties: {
+              title: { type: "string", minLength: 1 },
+              metaDescription: { type: "string", minLength: 1 },
+              badge: { type: "string", minLength: 1 },
+              excerpt: { type: "string", minLength: 1 },
+              image: {
+                type: "object",
+                required: ["url", "alt"],
+                properties: {
+                  url: { type: "string", minLength: 1 },
+                  alt: { type: "string", minLength: 1 },
+                },
+              },
+              bodyHtml: { type: "string", minLength: 1 },
+            },
+          },
+          vi: {
+            type: "object",
+            required: [
+              "title",
+              "metaDescription",
+              "badge",
+              "excerpt",
+              "image",
+              "bodyHtml",
+            ],
+            additionalProperties: true,
+            properties: {
+              title: { type: "string", minLength: 1 },
+              metaDescription: { type: "string", minLength: 1 },
+              badge: { type: "string", minLength: 1 },
+              excerpt: { type: "string", minLength: 1 },
+              image: {
+                type: "object",
+                required: ["url", "alt"],
+                properties: {
+                  url: { type: "string", minLength: 1 },
+                  alt: { type: "string", minLength: 1 },
+                },
+              },
+              bodyHtml: { type: "string", minLength: 1 },
+            },
+          },
+        },
+      },
+    },
+  };
+}
+
+function isArticleLikeObject(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return false;
+  }
+  if (typeof value.slug !== "string" || value.slug.trim() === "") {
+    return false;
+  }
+  if (!value.languages || typeof value.languages !== "object") {
+    return false;
+  }
+  for (const lang of ["en", "tl", "vi"]) {
+    if (!value.languages[lang] || typeof value.languages[lang] !== "object") {
+      return false;
+    }
+  }
+  return true;
+}
+
+function findArticleLikeObjectDeep(node, maxDepth = 6, currentDepth = 0) {
+  if (currentDepth > maxDepth) {
+    return null;
+  }
+
+  if (isArticleLikeObject(node)) {
+    return node;
+  }
+
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      const found = findArticleLikeObjectDeep(item, maxDepth, currentDepth + 1);
+      if (found) {
+        return found;
+      }
+    }
+    return null;
+  }
+
+  if (!node || typeof node !== "object") {
+    return null;
+  }
+
+  for (const key of Object.keys(node)) {
+    const found = findArticleLikeObjectDeep(node[key], maxDepth, currentDepth + 1);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+}
+
+function normalizeClaudeArticleOutput(stdoutText) {
+  const parsed = parseClaudeJsonOutput(stdoutText);
+  const articleObject = findArticleLikeObjectDeep(parsed);
+  if (articleObject) {
+    return articleObject;
+  }
+  throw new Error(
+    "Claude returned JSON, but it did not match expected article structure (slug/languages.en|tl|vi)."
+  );
+}
+
+function runClaudeWithCompatibility(repoRoot, argsWithToolsDisabled, argsWithoutTools, claudeTimeoutMs) {
+  try {
+    return runCommandWithWindowsCmdFallback("claude", argsWithToolsDisabled, {
+      cwd: repoRoot,
+      printOutput: false,
+      timeoutMs: claudeTimeoutMs,
+    });
+  } catch (primaryError) {
+    if (primaryError.commandNotFound || primaryError.spawnErrorCode === "ETIMEDOUT") {
+      throwClaudeInvocationError(primaryError, claudeTimeoutMs);
+    }
+
+    console.warn(
+      "Claude invocation failed with tools disabled. Retrying without --tools for CLI compatibility..."
+    );
+    try {
+      return runCommandWithWindowsCmdFallback("claude", argsWithoutTools, {
+        cwd: repoRoot,
+        printOutput: false,
+        timeoutMs: claudeTimeoutMs,
+      });
+    } catch (retryError) {
+      if (retryError.commandNotFound || retryError.spawnErrorCode === "ETIMEDOUT") {
+        throwClaudeInvocationError(retryError, claudeTimeoutMs);
+      }
+
+      const firstSummary = summarizeCommandError(primaryError);
+      const secondSummary = summarizeCommandError(retryError);
+      throw new Error(
+        "Claude invocation failed in both compatibility modes.\n" +
+          `Attempt 1 (--tools \"\"): ${firstSummary}\n` +
+          `Attempt 2 (without --tools): ${secondSummary}\n` +
+          "Check Claude authentication and environment with: claude auth status"
+      );
+    }
+  }
+}
+
 function runClaudeGenerate(
   repoRoot,
   skillRelativePath,
@@ -533,50 +748,60 @@ function runClaudeGenerate(
   );
   const claudeArgsToolsDisabled = ["-p", prompt, "--tools", ""];
   const claudeArgsDefaultTools = ["-p", prompt];
-  let result = null;
+  console.log(
+    `Calling Claude Code (tools disabled, timeout ${Math.round(
+      claudeTimeoutMs / 1000
+    )}s)...`
+  );
+  const result = runClaudeWithCompatibility(
+    repoRoot,
+    claudeArgsToolsDisabled,
+    claudeArgsDefaultTools,
+    claudeTimeoutMs
+  );
 
+  let articleData;
   try {
-    console.log(
-      `Calling Claude Code (tools disabled, timeout ${Math.round(
-        claudeTimeoutMs / 1000
-      )}s)...`
-    );
-    result = runCommandWithWindowsCmdFallback("claude", claudeArgsToolsDisabled, {
-      cwd: repoRoot,
-      printOutput: false,
-      timeoutMs: claudeTimeoutMs,
-    });
-  } catch (primaryError) {
-    if (primaryError.commandNotFound || primaryError.spawnErrorCode === "ETIMEDOUT") {
-      throwClaudeInvocationError(primaryError, claudeTimeoutMs);
-    }
-
+    articleData = normalizeClaudeArticleOutput(result.stdout);
+  } catch (parseError) {
     console.warn(
-      "Claude invocation failed with tools disabled. Retrying without --tools for CLI compatibility..."
+      "Claude output was not valid article JSON. Retrying with JSON schema enforcement..."
     );
-    try {
-      result = runCommandWithWindowsCmdFallback("claude", claudeArgsDefaultTools, {
-        cwd: repoRoot,
-        printOutput: false,
-        timeoutMs: claudeTimeoutMs,
-      });
-    } catch (retryError) {
-      if (retryError.commandNotFound || retryError.spawnErrorCode === "ETIMEDOUT") {
-        throwClaudeInvocationError(retryError, claudeTimeoutMs);
-      }
+    const schemaText = JSON.stringify(buildArticleJsonSchema());
+    const strictArgsWithToolsDisabled = [
+      "-p",
+      prompt,
+      "--tools",
+      "",
+      "--output-format",
+      "json",
+      "--json-schema",
+      schemaText,
+    ];
+    const strictArgsDefaultTools = [
+      "-p",
+      prompt,
+      "--output-format",
+      "json",
+      "--json-schema",
+      schemaText,
+    ];
 
-      const firstSummary = summarizeCommandError(primaryError);
-      const secondSummary = summarizeCommandError(retryError);
+    const strictResult = runClaudeWithCompatibility(
+      repoRoot,
+      strictArgsWithToolsDisabled,
+      strictArgsDefaultTools,
+      claudeTimeoutMs
+    );
+
+    try {
+      articleData = normalizeClaudeArticleOutput(strictResult.stdout);
+    } catch (strictParseError) {
       throw new Error(
-        "Claude invocation failed in both compatibility modes.\n" +
-          `Attempt 1 (--tools \"\"): ${firstSummary}\n` +
-          `Attempt 2 (without --tools): ${secondSummary}\n` +
-          "Check Claude authentication and environment with: claude auth status"
+        "Claude output was not valid JSON. Ensure it returns JSON only to stdout without extra explanation."
       );
     }
   }
-
-  const articleData = parseClaudeJsonOutput(result.stdout);
   saveArticleJson(articlePath, articleData);
   console.log(`Saved article JSON: ${path.relative(repoRoot, articlePath)}`);
 }
@@ -702,6 +927,23 @@ function runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInput
   });
 }
 
+function runFetchImageStep(repoRoot, options, articleInputPath, completedSteps) {
+  if (!options.fetchImageWithPexels) {
+    console.log("Skipped: fetch-image-with-pexels (--skip-image-fetch)");
+    return;
+  }
+
+  runStep("fetch-image", "Fetch article image with Pexels", completedSteps, () => {
+    runNodeScript(repoRoot, SCRIPTS.fetchArticleImage, [
+      "--input",
+      options.articleInput,
+      "--topic",
+      options.topicOutput,
+    ]);
+    assertFileExists(articleInputPath, "article input");
+  });
+}
+
 function runPipeline() {
   const options = parseArgs(process.argv.slice(2));
   const repoRoot = process.cwd();
@@ -741,6 +983,7 @@ function runPipeline() {
 
     assertPublishInputs(topicOutputPath, articleInputPath);
     warnArticleTopicFreshness(topicOutputPath, articleInputPath);
+    runFetchImageStep(repoRoot, options, articleInputPath, completedSteps);
     runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInputPath, completedSteps);
 
     console.log("");
@@ -787,6 +1030,7 @@ function runPipeline() {
 
     assertPublishInputs(topicOutputPath, articleInputPath);
     warnArticleTopicFreshness(topicOutputPath, articleInputPath);
+    runFetchImageStep(repoRoot, options, articleInputPath, completedSteps);
     runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInputPath, completedSteps);
 
     console.log("");
@@ -806,6 +1050,7 @@ function runPipeline() {
 
   assertPublishInputs(topicOutputPath, articleInputPath);
   warnArticleTopicFreshness(topicOutputPath, articleInputPath);
+  runFetchImageStep(repoRoot, options, articleInputPath, completedSteps);
   runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInputPath, completedSteps);
 
   console.log("");
