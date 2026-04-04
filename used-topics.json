@@ -1,5 +1,6 @@
 [
   "factory-attendance-rules",
   "factory-absence-notification",
-  "factory-time-card-errors"
+  "factory-time-card-errors",
+  "factory-first-day-checklist"
 ]
