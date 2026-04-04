@@ -72,6 +72,20 @@
       "downloadedAt": "2026-04-04T13:57:09.762Z"
     },
     {
+      "slug": "factory-late-arrival-reporting",
+      "provider": "pexels",
+      "photoId": 31199529,
+      "photoPageUrl": "https://www.pexels.com/photo/textile-factory-workers-manufacturing-process-31199529/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "Work Rules japan factory production line",
+      "file": "images/articles/factory-late-arrival-reporting.jpg",
+      "sha256": "5c42871f14191688343c80a902893302eeb77a81889966057a13d3f295474b70",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-04T14:05:41.948Z"
+    },
+    {
       "slug": "factory-time-card-errors",
       "provider": "pexels",
       "photoId": 23549137,
