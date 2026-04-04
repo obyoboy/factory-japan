@@ -1,0 +1,905 @@
+[
+  {
+    "id": "factory-attendance-rules",
+    "category": "Work Rules",
+    "topic": "Attendance rules in Japanese factories",
+    "keywords": ["attendance", "clock-in", "absence"],
+    "priority": 10
+  },
+  {
+    "id": "factory-late-arrival-reporting",
+    "category": "Work Rules",
+    "topic": "What to do if you will be late to a Japanese factory job",
+    "keywords": ["late", "reporting", "arrival"],
+    "priority": 10
+  },
+  {
+    "id": "factory-absence-notification",
+    "category": "Work Rules",
+    "topic": "How to report an absence at a Japanese factory",
+    "keywords": ["absence", "call-in", "report"],
+    "priority": 10
+  },
+  {
+    "id": "factory-early-leave-procedure",
+    "category": "Work Rules",
+    "topic": "How early leave works in Japanese factories",
+    "keywords": ["early leave", "permission", "procedure"],
+    "priority": 9
+  },
+  {
+    "id": "factory-shift-change-request",
+    "category": "Work Rules",
+    "topic": "How to request a shift change in a Japanese factory",
+    "keywords": ["shift change", "request", "schedule"],
+    "priority": 9
+  },
+  {
+    "id": "factory-day-shift-vs-night-shift-fit",
+    "category": "Workplace Tips",
+    "topic": "How to know whether day shift or night shift suits you in factory work",
+    "keywords": ["day shift", "night shift", "fit"],
+    "priority": 7
+  },
+  {
+    "id": "factory-probation-period-basics",
+    "category": "Hiring & Contracts",
+    "topic": "What a probation period means in Japanese factory jobs",
+    "keywords": ["probation", "trial period", "contract"],
+    "priority": 9
+  },
+  {
+    "id": "factory-contract-renewal-signs",
+    "category": "Hiring & Contracts",
+    "topic": "Signs your factory contract may or may not be renewed in Japan",
+    "keywords": ["renewal", "contract", "employment"],
+    "priority": 8
+  },
+  {
+    "id": "factory-fixed-term-contract-explained",
+    "category": "Hiring & Contracts",
+    "topic": "Fixed-term contracts in Japanese factories explained simply",
+    "keywords": ["fixed-term", "contract", "employment"],
+    "priority": 8
+  },
+  {
+    "id": "factory-dispatch-company-role",
+    "category": "Hiring & Contracts",
+    "topic": "What a dispatch company actually does in Japanese factory work",
+    "keywords": ["dispatch company", "staffing", "role"],
+    "priority": 8
+  },
+  {
+    "id": "factory-supervisor-vs-line-leader",
+    "category": "Workplace Tips",
+    "topic": "The difference between a line leader, supervisor, and manager in Japanese factories",
+    "keywords": ["supervisor", "line leader", "manager"],
+    "priority": 7
+  },
+  {
+    "id": "factory-training-period-what-to-expect",
+    "category": "Workplace Tips",
+    "topic": "What to expect during the training period at a Japanese factory",
+    "keywords": ["training", "orientation", "first days"],
+    "priority": 9
+  },
+  {
+    "id": "factory-first-day-checklist",
+    "category": "Daily Life",
+    "topic": "A first-day checklist for foreign workers starting at a Japanese factory",
+    "keywords": ["first day", "checklist", "new worker"],
+    "priority": 10
+  },
+  {
+    "id": "factory-what-to-bring-to-work",
+    "category": "Daily Life",
+    "topic": "What to bring on a normal workday at a Japanese factory",
+    "keywords": ["bring", "items", "workday"],
+    "priority": 8
+  },
+  {
+    "id": "factory-bag-and-personal-item-rules",
+    "category": "Work Rules",
+    "topic": "Bag checks and personal item rules in Japanese factories",
+    "keywords": ["bag", "personal items", "security"],
+    "priority": 8
+  },
+  {
+    "id": "factory-phone-use-rules",
+    "category": "Work Rules",
+    "topic": "Mobile phone rules in Japanese factories",
+    "keywords": ["phone", "mobile", "rules"],
+    "priority": 9
+  },
+  {
+    "id": "factory-smoking-area-rules",
+    "category": "Daily Life",
+    "topic": "Smoking area rules and etiquette in Japanese factories",
+    "keywords": ["smoking", "area", "etiquette"],
+    "priority": 7
+  },
+  {
+    "id": "factory-water-break-etiquette",
+    "category": "Daily Life",
+    "topic": "Water break etiquette in Japanese factories",
+    "keywords": ["water break", "hydration", "etiquette"],
+    "priority": 7
+  },
+  {
+    "id": "factory-break-room-etiquette",
+    "category": "Daily Life",
+    "topic": "Shared break room etiquette in Japanese factories",
+    "keywords": ["break room", "shared space", "etiquette"],
+    "priority": 9
+  },
+  {
+    "id": "factory-shared-fridge-rules",
+    "category": "Daily Life",
+    "topic": "Shared refrigerator rules in Japanese factory break rooms",
+    "keywords": ["fridge", "shared", "break room"],
+    "priority": 8
+  },
+  {
+    "id": "factory-microwave-etiquette",
+    "category": "Daily Life",
+    "topic": "Microwave and lunch heating etiquette in Japanese factories",
+    "keywords": ["microwave", "lunch", "etiquette"],
+    "priority": 7
+  },
+  {
+    "id": "factory-cafeteria-how-to-use",
+    "category": "Daily Life",
+    "topic": "How factory cafeterias usually work in Japan",
+    "keywords": ["cafeteria", "meal", "canteen"],
+    "priority": 8
+  },
+  {
+    "id": "factory-vending-machine-cashless-pay",
+    "category": "Daily Life",
+    "topic": "Using vending machines and cashless payment at Japanese factories",
+    "keywords": ["vending machine", "cashless", "payment"],
+    "priority": 6
+  },
+  {
+    "id": "factory-changing-room-manners",
+    "category": "Daily Life",
+    "topic": "Changing room manners in Japanese factories",
+    "keywords": ["changing room", "manners", "privacy"],
+    "priority": 8
+  },
+  {
+    "id": "factory-restroom-cleanliness-rules",
+    "category": "Daily Life",
+    "topic": "Restroom cleanliness rules and expectations in Japanese factories",
+    "keywords": ["restroom", "cleanliness", "rules"],
+    "priority": 6
+  },
+  {
+    "id": "factory-slippers-indoor-shoes-rules",
+    "category": "Safety",
+    "topic": "Indoor shoe and slipper rules in Japanese factories",
+    "keywords": ["shoes", "slippers", "indoor rules"],
+    "priority": 8
+  },
+  {
+    "id": "factory-safety-shoes-basics",
+    "category": "Safety",
+    "topic": "Safety shoe rules in Japanese factories",
+    "keywords": ["safety shoes", "footwear", "protection"],
+    "priority": 9
+  },
+  {
+    "id": "factory-helmet-and-cap-rules",
+    "category": "Safety",
+    "topic": "Helmet, cap, and head covering rules in Japanese factories",
+    "keywords": ["helmet", "cap", "head covering"],
+    "priority": 8
+  },
+  {
+    "id": "factory-gloves-selection-guide",
+    "category": "Safety",
+    "topic": "Why different factory tasks use different gloves in Japan",
+    "keywords": ["gloves", "task", "protection"],
+    "priority": 8
+  },
+  {
+    "id": "factory-mask-and-dust-protection",
+    "category": "Safety",
+    "topic": "When masks or dust protection are required in Japanese factories",
+    "keywords": ["mask", "dust", "protection"],
+    "priority": 7
+  },
+  {
+    "id": "factory-ear-protection-basics",
+    "category": "Safety",
+    "topic": "Ear protection basics for noisy factory workplaces in Japan",
+    "keywords": ["ear protection", "noise", "safety"],
+    "priority": 7
+  },
+  {
+    "id": "factory-safety-signs-colors",
+    "category": "Safety",
+    "topic": "How to understand common safety sign colors in Japanese factories",
+    "keywords": ["safety signs", "colors", "warnings"],
+    "priority": 9
+  },
+  {
+    "id": "factory-emergency-exit-rules",
+    "category": "Safety",
+    "topic": "Emergency exit rules every factory worker in Japan should know",
+    "keywords": ["emergency exit", "evacuation", "safety"],
+    "priority": 9
+  },
+  {
+    "id": "factory-fire-drill-what-to-do",
+    "category": "Safety",
+    "topic": "What to do during a fire drill at a Japanese factory",
+    "keywords": ["fire drill", "emergency", "evacuation"],
+    "priority": 8
+  },
+  {
+    "id": "factory-earthquake-response-basics",
+    "category": "Safety",
+    "topic": "Basic earthquake response for factory workers in Japan",
+    "keywords": ["earthquake", "disaster", "response"],
+    "priority": 10
+  },
+  {
+    "id": "factory-near-miss-reporting",
+    "category": "Safety",
+    "topic": "What a near-miss report is in Japanese factories",
+    "keywords": ["near miss", "reporting", "safety"],
+    "priority": 8
+  },
+  {
+    "id": "factory-machine-stop-button-basics",
+    "category": "Safety",
+    "topic": "When to use a machine stop or emergency stop button in a Japanese factory",
+    "keywords": ["stop button", "machine", "emergency"],
+    "priority": 8
+  },
+  {
+    "id": "factory-forklift-area-rules",
+    "category": "Safety",
+    "topic": "How to stay safe around forklifts in Japanese factories",
+    "keywords": ["forklift", "traffic", "safety"],
+    "priority": 9
+  },
+  {
+    "id": "factory-line-stop-procedure",
+    "category": "Safety",
+    "topic": "What workers should do when a production line stops unexpectedly",
+    "keywords": ["line stop", "procedure", "production"],
+    "priority": 8
+  },
+  {
+    "id": "factory-clean-zone-rules",
+    "category": "Safety",
+    "topic": "Clean zone and contamination control rules in Japanese factories",
+    "keywords": ["clean zone", "contamination", "hygiene"],
+    "priority": 7
+  },
+  {
+    "id": "factory-food-and-drink-restrictions",
+    "category": "Safety",
+    "topic": "Why food and drink are restricted in many factory work areas",
+    "keywords": ["food", "drink", "restriction"],
+    "priority": 7
+  },
+  {
+    "id": "factory-jewelry-and-accessories-rules",
+    "category": "Safety",
+    "topic": "Jewelry, watches, and accessories rules in Japanese factories",
+    "keywords": ["jewelry", "watch", "accessories"],
+    "priority": 8
+  },
+  {
+    "id": "factory-nails-hair-and-grooming-rules",
+    "category": "Work Rules",
+    "topic": "Nails, hair, and grooming rules in Japanese factories",
+    "keywords": ["hair", "nails", "grooming"],
+    "priority": 8
+  },
+  {
+    "id": "factory-appearance-and-dress-code",
+    "category": "Work Rules",
+    "topic": "Appearance and dress code expectations in Japanese factories",
+    "keywords": ["appearance", "dress code", "grooming"],
+    "priority": 7
+  },
+  {
+    "id": "factory-work-instructions-how-to-read",
+    "category": "Workplace Tips",
+    "topic": "How to read work instructions and process sheets in Japanese factories",
+    "keywords": ["instructions", "process sheet", "manual"],
+    "priority": 10
+  },
+  {
+    "id": "factory-kanban-basics",
+    "category": "Workplace Tips",
+    "topic": "Kanban basics for foreign factory workers in Japan",
+    "keywords": ["kanban", "production", "workflow"],
+    "priority": 9
+  },
+  {
+    "id": "factory-serial-number-and-lot-number",
+    "category": "Workplace Tips",
+    "topic": "The difference between serial numbers and lot numbers in factory work",
+    "keywords": ["serial number", "lot number", "traceability"],
+    "priority": 7
+  },
+  {
+    "id": "factory-quality-check-basics",
+    "category": "Workplace Tips",
+    "topic": "Basic quality check tasks foreign workers often do in Japanese factories",
+    "keywords": ["quality check", "inspection", "defects"],
+    "priority": 9
+  },
+  {
+    "id": "factory-defect-reporting",
+    "category": "Workplace Tips",
+    "topic": "How to report a defect or abnormality on the factory line",
+    "keywords": ["defect", "report", "abnormality"],
+    "priority": 10
+  },
+  {
+    "id": "factory-rework-vs-scrap",
+    "category": "Workplace Tips",
+    "topic": "What rework and scrap mean in factory production",
+    "keywords": ["rework", "scrap", "quality"],
+    "priority": 7
+  },
+  {
+    "id": "factory-hand-over-notes",
+    "category": "Workplace Tips",
+    "topic": "How shift handover notes work in Japanese factories",
+    "keywords": ["handover", "notes", "shift"],
+    "priority": 8
+  },
+  {
+    "id": "factory-daily-targets-and-output",
+    "category": "Workplace Tips",
+    "topic": "How daily targets and output numbers are used in Japanese factories",
+    "keywords": ["target", "output", "production"],
+    "priority": 8
+  },
+  {
+    "id": "factory-work-speed-vs-accuracy",
+    "category": "Workplace Tips",
+    "topic": "How to balance work speed and accuracy in a Japanese factory",
+    "keywords": ["speed", "accuracy", "work quality"],
+    "priority": 8
+  },
+  {
+    "id": "factory-common-mistakes-new-workers",
+    "category": "Workplace Tips",
+    "topic": "Common mistakes new foreign workers make in Japanese factories",
+    "keywords": ["mistakes", "new workers", "tips"],
+    "priority": 10
+  },
+  {
+    "id": "factory-how-to-ask-for-help",
+    "category": "Communication",
+    "topic": "How to ask for help politely in a Japanese factory",
+    "keywords": ["help", "communication", "polite"],
+    "priority": 9
+  },
+  {
+    "id": "factory-how-to-report-a-problem",
+    "category": "Communication",
+    "topic": "Useful ways to report a problem clearly in a Japanese factory",
+    "keywords": ["report", "problem", "communication"],
+    "priority": 9
+  },
+  {
+    "id": "factory-confirming-instructions",
+    "category": "Communication",
+    "topic": "How to confirm instructions so you do not misunderstand factory work",
+    "keywords": ["confirm", "instructions", "repeat"],
+    "priority": 9
+  },
+  {
+    "id": "factory-when-you-did-not-hear-clearly",
+    "category": "Communication",
+    "topic": "What to say when you did not hear or understand clearly at work",
+    "keywords": ["didn't understand", "hearing", "phrases"],
+    "priority": 8
+  },
+  {
+    "id": "factory-keigo-not-always-needed",
+    "category": "Communication",
+    "topic": "How polite you really need to be in everyday factory Japanese",
+    "keywords": ["keigo", "politeness", "japanese"],
+    "priority": 7
+  },
+  {
+    "id": "factory-report-contact-consult-basics",
+    "category": "Communication",
+    "topic": "The meaning of report, contact, and consult in Japanese workplaces",
+    "keywords": ["hourensou", "report", "consult"],
+    "priority": 9
+  },
+  {
+    "id": "factory-small-talk-break-time",
+    "category": "Communication",
+    "topic": "Simple small talk topics for break time with Japanese coworkers",
+    "keywords": ["small talk", "break time", "coworkers"],
+    "priority": 6
+  },
+  {
+    "id": "factory-asking-about-schedule",
+    "category": "Communication",
+    "topic": "How to ask about tomorrow's schedule or overtime politely",
+    "keywords": ["schedule", "overtime", "ask"],
+    "priority": 8
+  },
+  {
+    "id": "factory-phone-call-from-company",
+    "category": "Communication",
+    "topic": "What to do if your factory or dispatch company calls you",
+    "keywords": ["phone call", "company", "response"],
+    "priority": 7
+  },
+  {
+    "id": "factory-group-chat-etiquette",
+    "category": "Communication",
+    "topic": "Line or group chat etiquette for Japanese factory workplaces",
+    "keywords": ["group chat", "line", "etiquette"],
+    "priority": 7
+  },
+  {
+    "id": "factory-time-card-errors",
+    "category": "Pay & Benefits",
+    "topic": "What to do if your factory time card is wrong in Japan",
+    "keywords": ["time card", "error", "attendance"],
+    "priority": 10
+  },
+  {
+    "id": "factory-missing-pay-items",
+    "category": "Pay & Benefits",
+    "topic": "How to check if something is missing from your factory pay",
+    "keywords": ["missing pay", "salary", "check"],
+    "priority": 9
+  },
+  {
+    "id": "factory-deductions-you-should-ask-about",
+    "category": "Pay & Benefits",
+    "topic": "Salary deductions foreign factory workers should ask about in Japan",
+    "keywords": ["deductions", "salary", "paycheck"],
+    "priority": 9
+  },
+  {
+    "id": "factory-pay-date-what-if-delayed",
+    "category": "Pay & Benefits",
+    "topic": "What to do if your factory salary seems delayed in Japan",
+    "keywords": ["pay date", "delay", "salary"],
+    "priority": 8
+  },
+  {
+    "id": "factory-weekend-premium-basics",
+    "category": "Pay & Benefits",
+    "topic": "Do weekend factory shifts pay more in Japan",
+    "keywords": ["weekend", "premium", "salary"],
+    "priority": 7
+  },
+  {
+    "id": "factory-holiday-work-pay-basics",
+    "category": "Pay & Benefits",
+    "topic": "How holiday work pay usually works in Japanese factories",
+    "keywords": ["holiday work", "premium", "pay"],
+    "priority": 8
+  },
+  {
+    "id": "factory-transport-cost-what-counts",
+    "category": "Pay & Benefits",
+    "topic": "What kinds of commuting costs may or may not be covered in factory jobs",
+    "keywords": ["transport", "commute", "cost"],
+    "priority": 7
+  },
+  {
+    "id": "factory-lunch-cost-deduction",
+    "category": "Pay & Benefits",
+    "topic": "Why meal or lunch costs may be deducted from factory pay in Japan",
+    "keywords": ["meal", "deduction", "lunch"],
+    "priority": 7
+  },
+  {
+    "id": "factory-unpaid-break-vs-unpaid-work",
+    "category": "Pay & Benefits",
+    "topic": "The difference between unpaid break time and unpaid work time in factories",
+    "keywords": ["unpaid break", "unpaid work", "time"],
+    "priority": 8
+  },
+  {
+    "id": "factory-pay-slip-keep-records",
+    "category": "Pay & Benefits",
+    "topic": "Why factory workers in Japan should keep old payslips and attendance records",
+    "keywords": ["records", "payslips", "attendance"],
+    "priority": 7
+  },
+  {
+    "id": "factory-residence-tax-basics",
+    "category": "Pay & Benefits",
+    "topic": "Residence tax basics foreign factory workers in Japan should know",
+    "keywords": ["residence tax", "tax", "salary"],
+    "priority": 8
+  },
+  {
+    "id": "factory-income-tax-adjustment",
+    "category": "Pay & Benefits",
+    "topic": "What year-end tax adjustment can mean for factory workers in Japan",
+    "keywords": ["tax adjustment", "year-end", "income tax"],
+    "priority": 7
+  },
+  {
+    "id": "factory-unemployment-insurance-basics",
+    "category": "Pay & Benefits",
+    "topic": "Unemployment insurance basics for factory workers in Japan",
+    "keywords": ["unemployment insurance", "benefits", "employment"],
+    "priority": 8
+  },
+  {
+    "id": "factory-pension-deductions-what-they-mean",
+    "category": "Pay & Benefits",
+    "topic": "What pension deductions mean on a factory worker's salary in Japan",
+    "keywords": ["pension", "deduction", "salary"],
+    "priority": 8
+  },
+  {
+    "id": "factory-bank-account-for-salary",
+    "category": "Daily Life",
+    "topic": "What kind of bank account you need to receive factory salary in Japan",
+    "keywords": ["bank account", "salary", "transfer"],
+    "priority": 7
+  },
+  {
+    "id": "factory-when-salary-hits-bank",
+    "category": "Daily Life",
+    "topic": "When salary usually appears in your bank account in Japan",
+    "keywords": ["salary", "bank account", "pay day"],
+    "priority": 6
+  },
+  {
+    "id": "factory-bicycle-commuting-rules",
+    "category": "Daily Life",
+    "topic": "Bicycle commuting rules for factory workers in Japan",
+    "keywords": ["bicycle", "commute", "parking"],
+    "priority": 8
+  },
+  {
+    "id": "factory-car-commuting-permission",
+    "category": "Daily Life",
+    "topic": "Why some factories require permission for car commuting in Japan",
+    "keywords": ["car commute", "permission", "parking"],
+    "priority": 7
+  },
+  {
+    "id": "factory-bad-weather-commute",
+    "category": "Daily Life",
+    "topic": "What to do when bad weather affects your factory commute in Japan",
+    "keywords": ["weather", "commute", "delay"],
+    "priority": 8
+  },
+  {
+    "id": "factory-snow-day-work-questions",
+    "category": "Daily Life",
+    "topic": "How snow or severe weather may affect factory work schedules in Japan",
+    "keywords": ["snow", "weather", "schedule"],
+    "priority": 6
+  },
+  {
+    "id": "factory-dormitory-rules-common-problems",
+    "category": "Daily Life",
+    "topic": "Common dormitory rule problems foreign factory workers face in Japan",
+    "keywords": ["dormitory", "rules", "problems"],
+    "priority": 8
+  },
+  {
+    "id": "factory-garbage-sorting-near-dormitory",
+    "category": "Daily Life",
+    "topic": "Garbage sorting basics for factory workers living in Japan",
+    "keywords": ["garbage", "sorting", "daily life"],
+    "priority": 7
+  },
+  {
+    "id": "factory-nearest-clinic-when-sick",
+    "category": "Daily Life",
+    "topic": "What factory workers in Japan should do when they need a clinic on a workday",
+    "keywords": ["clinic", "sick", "daily life"],
+    "priority": 7
+  },
+  {
+    "id": "factory-calling-in-sick-how-to-say-it",
+    "category": "Communication",
+    "topic": "How to call in sick properly to a Japanese factory or dispatch company",
+    "keywords": ["sick", "call in", "communication"],
+    "priority": 9
+  },
+  {
+    "id": "factory-hospital-paperwork-from-company",
+    "category": "Daily Life",
+    "topic": "When your factory or dispatch company may ask for hospital paperwork",
+    "keywords": ["hospital", "paperwork", "company"],
+    "priority": 6
+  },
+  {
+    "id": "factory-mental-fatigue-and-asking-for-support",
+    "category": "Daily Life",
+    "topic": "How to ask for support when factory work stress is building up",
+    "keywords": ["stress", "support", "consult"],
+    "priority": 8
+  },
+  {
+    "id": "factory-how-to-take-notes-on-the-line",
+    "category": "Workplace Tips",
+    "topic": "How to take quick useful notes while learning factory work",
+    "keywords": ["notes", "learning", "training"],
+    "priority": 7
+  },
+  {
+    "id": "factory-memory-tips-for-multi-step-tasks",
+    "category": "Workplace Tips",
+    "topic": "Memory tips for multi-step factory tasks in Japan",
+    "keywords": ["memory", "multi-step", "task"],
+    "priority": 7
+  },
+  {
+    "id": "factory-how-to-avoid-repeating-mistakes",
+    "category": "Workplace Tips",
+    "topic": "How to avoid repeating the same mistake in factory work",
+    "keywords": ["mistake", "improvement", "learning"],
+    "priority": 8
+  },
+  {
+    "id": "factory-what-manual-check-really-means",
+    "category": "Workplace Tips",
+    "topic": "What manual check and final check usually mean in factories",
+    "keywords": ["manual check", "final check", "inspection"],
+    "priority": 7
+  },
+  {
+    "id": "factory-assembly-vs-inspection-work",
+    "category": "Workplace Tips",
+    "topic": "The difference between assembly work and inspection work in Japanese factories",
+    "keywords": ["assembly", "inspection", "job type"],
+    "priority": 8
+  },
+  {
+    "id": "factory-packing-and-shipping-area-basics",
+    "category": "Workplace Tips",
+    "topic": "What the packing and shipping area is like in Japanese factories",
+    "keywords": ["packing", "shipping", "logistics"],
+    "priority": 7
+  },
+  {
+    "id": "factory-material-supply-role",
+    "category": "Workplace Tips",
+    "topic": "What material supply work involves in a Japanese factory",
+    "keywords": ["material supply", "line support", "production"],
+    "priority": 6
+  },
+  {
+    "id": "factory-how-production-boards-work",
+    "category": "Workplace Tips",
+    "topic": "How production boards and status boards are used in Japanese factories",
+    "keywords": ["production board", "status", "visual management"],
+    "priority": 7
+  },
+  {
+    "id": "factory-red-tag-and-abnormality-labels",
+    "category": "Workplace Tips",
+    "topic": "What red tags or abnormality labels may mean in a Japanese factory",
+    "keywords": ["red tag", "abnormality", "label"],
+    "priority": 6
+  },
+  {
+    "id": "factory-standard-work-basics",
+    "category": "Workplace Tips",
+    "topic": "What standard work means in Japanese factory operations",
+    "keywords": ["standard work", "procedure", "operations"],
+    "priority": 8
+  },
+  {
+    "id": "factory-why-rule-following-matters",
+    "category": "Workplace Tips",
+    "topic": "Why following even small workplace rules matters in Japanese factories",
+    "keywords": ["rules", "discipline", "culture"],
+    "priority": 8
+  },
+  {
+    "id": "factory-how-supervisors-evaluate-workers",
+    "category": "Career",
+    "topic": "How factory supervisors in Japan often evaluate workers",
+    "keywords": ["evaluation", "supervisor", "performance"],
+    "priority": 8
+  },
+  {
+    "id": "factory-how-to-build-trust-at-work",
+    "category": "Career",
+    "topic": "How foreign factory workers can build trust at a Japanese workplace",
+    "keywords": ["trust", "reputation", "workplace"],
+    "priority": 9
+  },
+  {
+    "id": "factory-being-fast-vs-being-reliable",
+    "category": "Career",
+    "topic": "Why being reliable can matter more than being fast in factory work",
+    "keywords": ["reliable", "speed", "evaluation"],
+    "priority": 7
+  },
+  {
+    "id": "factory-how-to-become-line-leader",
+    "category": "Career",
+    "topic": "What helps a factory worker in Japan become a line leader or trainer",
+    "keywords": ["line leader", "promotion", "career"],
+    "priority": 7
+  },
+  {
+    "id": "factory-when-to-change-jobs",
+    "category": "Career",
+    "topic": "How to judge whether it is time to change factory jobs in Japan",
+    "keywords": ["change jobs", "career", "decision"],
+    "priority": 8
+  },
+  {
+    "id": "factory-questions-to-ask-before-joining",
+    "category": "Hiring & Contracts",
+    "topic": "Important questions to ask before accepting a factory job in Japan",
+    "keywords": ["job offer", "questions", "joining"],
+    "priority": 9
+  },
+  {
+    "id": "factory-red-flags-job-ads",
+    "category": "Hiring & Contracts",
+    "topic": "Red flags in factory job ads in Japan",
+    "keywords": ["job ads", "red flags", "hiring"],
+    "priority": 8
+  },
+  {
+    "id": "factory-what-interviewers-often-ask",
+    "category": "Hiring & Contracts",
+    "topic": "Common interview questions for foreign workers applying to Japanese factories",
+    "keywords": ["interview", "questions", "hiring"],
+    "priority": 7
+  },
+  {
+    "id": "factory-document-checklist-before-start",
+    "category": "Hiring & Contracts",
+    "topic": "Document checklist before starting a factory job in Japan",
+    "keywords": ["documents", "checklist", "start work"],
+    "priority": 8
+  },
+  {
+    "id": "factory-work-visa-status-check-basics",
+    "category": "Hiring & Contracts",
+    "topic": "Why your residence status and work scope matter in factory jobs in Japan",
+    "keywords": ["visa", "status", "work scope"],
+    "priority": 8
+  },
+  {
+    "id": "factory-what-to-do-before-residence-card-expires",
+    "category": "Hiring & Contracts",
+    "topic": "What to do before your residence card expires while working at a factory in Japan",
+    "keywords": ["residence card", "expiry", "renewal"],
+    "priority": 8
+  },
+  {
+    "id": "factory-moving-address-company-notice",
+    "category": "Daily Life",
+    "topic": "Why you must tell your factory or dispatch company when you move in Japan",
+    "keywords": ["move", "address", "notice"],
+    "priority": 7
+  },
+  {
+    "id": "factory-emergency-contact-update",
+    "category": "Daily Life",
+    "topic": "Why emergency contact information should stay updated for factory workers in Japan",
+    "keywords": ["emergency contact", "update", "company"],
+    "priority": 6
+  },
+  {
+    "id": "factory-how-to-read-simple-shift-schedule",
+    "category": "Workplace Tips",
+    "topic": "How to read a simple shift schedule at a Japanese factory",
+    "keywords": ["shift schedule", "calendar", "workdays"],
+    "priority": 8
+  },
+  {
+    "id": "factory-busy-season-what-changes",
+    "category": "Workplace Tips",
+    "topic": "What usually changes during busy season in Japanese factories",
+    "keywords": ["busy season", "production", "schedule"],
+    "priority": 7
+  },
+  {
+    "id": "factory-slow-season-what-it-means",
+    "category": "Workplace Tips",
+    "topic": "What slow season can mean for hours and work assignments in Japanese factories",
+    "keywords": ["slow season", "hours", "assignment"],
+    "priority": 6
+  },
+  {
+    "id": "factory-temp-shutdown-and-standby",
+    "category": "Workplace Tips",
+    "topic": "What temporary shutdown or standby can mean in factory work",
+    "keywords": ["shutdown", "standby", "production"],
+    "priority": 6
+  },
+  {
+    "id": "factory-how-to-keep-your-own-work-record",
+    "category": "Workplace Tips",
+    "topic": "Why foreign factory workers should keep their own work and attendance records",
+    "keywords": ["records", "attendance", "notes"],
+    "priority": 8
+  },
+  {
+    "id": "factory-how-to-check-notice-boards",
+    "category": "Communication",
+    "topic": "How to use workplace notice boards effectively in Japanese factories",
+    "keywords": ["notice board", "announcements", "information"],
+    "priority": 7
+  },
+  {
+    "id": "factory-japanese-words-on-warning-labels",
+    "category": "Communication",
+    "topic": "Common Japanese words seen on factory warning labels",
+    "keywords": ["warning labels", "japanese words", "safety"],
+    "priority": 8
+  },
+  {
+    "id": "factory-japanese-words-on-tools-and-machines",
+    "category": "Communication",
+    "topic": "Common Japanese words written on factory tools and machines",
+    "keywords": ["tools", "machines", "vocabulary"],
+    "priority": 7
+  },
+  {
+    "id": "factory-how-to-explain-a-small-injury",
+    "category": "Communication",
+    "topic": "How to explain a small injury or pain clearly at work in Japan",
+    "keywords": ["injury", "pain", "reporting"],
+    "priority": 8
+  },
+  {
+    "id": "factory-how-to-say-you-need-more-time",
+    "category": "Communication",
+    "topic": "How to say you need more time to learn a task at a Japanese factory",
+    "keywords": ["need more time", "learning", "communication"],
+    "priority": 7
+  },
+  {
+    "id": "factory-asking-about-rule-differences-between-lines",
+    "category": "Communication",
+    "topic": "How to ask why rules differ between lines or sections in a factory",
+    "keywords": ["different rules", "sections", "ask"],
+    "priority": 6
+  },
+  {
+    "id": "factory-what-to-do-if-coworker-is-upset",
+    "category": "Communication",
+    "topic": "What to do if a coworker seems angry or upset on the factory floor",
+    "keywords": ["coworker", "conflict", "communication"],
+    "priority": 7
+  },
+  {
+    "id": "factory-how-to-handle-scolding-calmly",
+    "category": "Communication",
+    "topic": "How to respond calmly if you are scolded in a Japanese factory",
+    "keywords": ["scolding", "response", "workplace"],
+    "priority": 8
+  },
+  {
+    "id": "factory-when-to-apologize-and-when-to-explain",
+    "category": "Communication",
+    "topic": "When to apologize first and when to explain first in a Japanese workplace",
+    "keywords": ["apology", "explain", "communication"],
+    "priority": 7
+  },
+  {
+    "id": "factory-simple-end-of-shift-routine",
+    "category": "Workplace Tips",
+    "topic": "A simple end-of-shift routine for factory workers in Japan",
+    "keywords": ["end of shift", "routine", "cleanup"],
+    "priority": 8
+  }
+]
