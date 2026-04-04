@@ -2,6 +2,20 @@
   "version": 1,
   "images": [
     {
+      "slug": "factory-absence-notification",
+      "provider": "pexels",
+      "photoId": 31091545,
+      "photoPageUrl": "https://www.pexels.com/photo/indian-textile-factory-workers-in-production-line-31091545/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "Work Rules japan factory production line",
+      "file": "images/articles/factory-absence-notification.jpg",
+      "sha256": "eddb3242aa1f54d2d5ab9da2f17a293ce1176051943589cb1e3f5074ab13b548",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-04T13:51:27.999Z"
+    },
+    {
       "slug": "factory-attendance-rules",
       "provider": "pexels",
       "photoId": 36823725,

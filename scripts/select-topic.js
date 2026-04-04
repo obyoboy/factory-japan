@@ -64,7 +64,8 @@ function readJsonFile(filePath, label) {
   }
 
   try {
-    return JSON.parse(raw);
+    const normalized = raw.replace(/^\uFEFF/, "");
+    return JSON.parse(normalized);
   } catch (error) {
     if (error.name === "SyntaxError") {
       throw new Error(`Invalid JSON in ${label} file (${filePath}): ${error.message}`);

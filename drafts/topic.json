@@ -1,11 +1,11 @@
 {
-  "id": "factory-attendance-rules",
+  "id": "factory-absence-notification",
   "category": "Work Rules",
-  "topic": "Attendance rules in Japanese factories",
+  "topic": "How to report an absence at a Japanese factory",
   "keywords": [
-    "attendance",
-    "clock-in",
-    "absence"
+    "absence",
+    "call-in",
+    "report"
   ],
   "priority": 10
 }
