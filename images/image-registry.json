@@ -30,6 +30,20 @@
       "downloadedAt": "2026-04-04T10:12:26.814Z"
     },
     {
+      "slug": "factory-break-room-etiquette",
+      "provider": "pexels",
+      "photoId": 8518888,
+      "photoPageUrl": "https://www.pexels.com/photo/people-eating-japanese-food-8518888/",
+      "photographer": "Artem Podrez",
+      "photographerUrl": "https://www.pexels.com/@artempodrez",
+      "query": "Shared break room etiquette in Japanese factories break room shared space etiquette japan factory worker",
+      "file": "images/articles/factory-break-room-etiquette.jpg",
+      "sha256": "273db39d1b84ca80882aa94d69c4d8fdeeadc3a698dcd46e4d8beaaf587e9790",
+      "width": 6144,
+      "height": 3456,
+      "downloadedAt": "2026-04-05T04:43:02.698Z"
+    },
+    {
       "slug": "factory-common-mistakes-new-workers",
       "provider": "pexels",
       "photoId": 17937669,
