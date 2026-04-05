@@ -100,6 +100,20 @@
       "downloadedAt": "2026-04-04T14:05:41.948Z"
     },
     {
+      "slug": "factory-probation-period-basics",
+      "provider": "pexels",
+      "photoId": 36423805,
+      "photoPageUrl": "https://www.pexels.com/photo/glass-bottle-production-line-in-factory-36423805/",
+      "photographer": "Keegan Checks",
+      "photographerUrl": "https://www.pexels.com/@keeganjchecks",
+      "query": "Hiring & Contracts japan factory production line",
+      "file": "images/articles/factory-probation-period-basics.jpg",
+      "sha256": "405cb6851b90cfe7cb5038406aa14c2e3b291b08e94a16f08362013cef9a0200",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-05T03:29:40.703Z"
+    },
+    {
       "slug": "factory-time-card-errors",
       "provider": "pexels",
       "photoId": 23549137,
