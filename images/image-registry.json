@@ -100,6 +100,20 @@
       "downloadedAt": "2026-04-04T13:57:09.762Z"
     },
     {
+      "slug": "factory-how-to-build-trust-at-work",
+      "provider": "pexels",
+      "photoId": 36423822,
+      "photoPageUrl": "https://www.pexels.com/photo/glass-bottles-on-a-production-line-in-factory-36423822/",
+      "photographer": "Keegan Checks",
+      "photographerUrl": "https://www.pexels.com/@keeganjchecks",
+      "query": "Career japan factory production line",
+      "file": "images/articles/factory-how-to-build-trust-at-work.jpg",
+      "sha256": "744585091df4d938db4db6502a063ac10f37e3beedd13d93796acf831f79d521",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-05T07:05:25.873Z"
+    },
+    {
       "slug": "factory-late-arrival-reporting",
       "provider": "pexels",
       "photoId": 31199529,
