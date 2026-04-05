@@ -58,6 +58,20 @@
       "downloadedAt": "2026-04-04T14:04:12.433Z"
     },
     {
+      "slug": "factory-confirming-instructions",
+      "provider": "pexels",
+      "photoId": 23232403,
+      "photoPageUrl": "https://www.pexels.com/photo/woman-working-in-a-factory-23232403/",
+      "photographer": "Vika Glitter",
+      "photographerUrl": "https://www.pexels.com/@vika-glitter-392079",
+      "query": "How to confirm instructions so you do not misunderstand factory work confirm instructions repeat japan factory worker",
+      "file": "images/articles/factory-confirming-instructions.jpg",
+      "sha256": "475b275263dc8665c782387b4074eccdd68cdc76c3f47527639f28d19b8e798d",
+      "width": 6016,
+      "height": 4000,
+      "downloadedAt": "2026-04-05T13:02:38.621Z"
+    },
+    {
       "slug": "factory-defect-reporting",
       "provider": "pexels",
       "photoId": 31091548,
