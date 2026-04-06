@@ -184,6 +184,20 @@
       "downloadedAt": "2026-04-04T14:05:41.948Z"
     },
     {
+      "slug": "factory-missing-pay-items",
+      "provider": "pexels",
+      "photoId": 6720528,
+      "photoPageUrl": "https://www.pexels.com/photo/man-in-plaid-shirt-giving-money-to-bearded-man-in-blue-cap-and-overall-6720528/",
+      "photographer": "Gustavo Fring",
+      "photographerUrl": "https://www.pexels.com/@gustavo-fring",
+      "query": "How to check if something is missing from your factory pay missing pay salary check japan factory worker",
+      "file": "images/articles/factory-missing-pay-items.jpg",
+      "sha256": "0942764f6cc15e26ae6911f3d8aca39127481414b810cc2abe37775e54310794",
+      "width": 5760,
+      "height": 3840,
+      "downloadedAt": "2026-04-06T04:37:12.462Z"
+    },
+    {
       "slug": "factory-probation-period-basics",
       "provider": "pexels",
       "photoId": 36423805,
