@@ -226,6 +226,20 @@
       "downloadedAt": "2026-04-05T13:11:04.281Z"
     },
     {
+      "slug": "factory-kanban-basics",
+      "provider": "pexels",
+      "photoId": 31091541,
+      "photoPageUrl": "https://www.pexels.com/photo/efficient-textile-factory-workers-in-action-31091541/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "Kanban basics for foreign factory workers in Japan kanban production workflow japan factory worker",
+      "file": "images/articles/factory-kanban-basics.jpg",
+      "sha256": "7f46a6404f8a84f5a1e83d916e0fb78403edfb92c8d5222523c8f44918233a91",
+      "width": 5618,
+      "height": 3745,
+      "downloadedAt": "2026-04-08T19:28:58.562Z"
+    },
+    {
       "slug": "factory-late-arrival-reporting",
       "provider": "pexels",
       "photoId": 31199529,

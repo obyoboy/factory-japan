@@ -24,5 +24,6 @@
   "factory-shift-change-request",
   "factory-forklift-area-rules",
   "factory-early-leave-procedure",
-  "factory-phone-use-rules"
+  "factory-phone-use-rules",
+  "factory-kanban-basics"
 ]
