@@ -254,6 +254,20 @@
       "downloadedAt": "2026-04-06T04:37:12.462Z"
     },
     {
+      "slug": "factory-phone-use-rules",
+      "provider": "pexels",
+      "photoId": 6384181,
+      "photoPageUrl": "https://www.pexels.com/photo/a-person-taking-picture-of-tokyo-tower-in-tokyo-japan-6384181/",
+      "photographer": "Minku Kang",
+      "photographerUrl": "https://www.pexels.com/@minku-kang-1383661",
+      "query": "Mobile phone rules in Japanese factories phone mobile rules japan factory worker",
+      "file": "images/articles/factory-phone-use-rules.jpg",
+      "sha256": "ad3d21d7b249f3a2d4628bf21d8188edef76c8d42023c916db74c3d666896231",
+      "width": 6000,
+      "height": 3376,
+      "downloadedAt": "2026-04-08T19:16:47.174Z"
+    },
+    {
       "slug": "factory-probation-period-basics",
       "provider": "pexels",
       "photoId": 36423805,
