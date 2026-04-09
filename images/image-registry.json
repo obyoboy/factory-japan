@@ -296,6 +296,20 @@
       "downloadedAt": "2026-04-05T03:29:40.703Z"
     },
     {
+      "slug": "factory-quality-check-basics",
+      "provider": "pexels",
+      "photoId": 31335991,
+      "photoPageUrl": "https://www.pexels.com/photo/skilled-textile-workers-in-a-modern-factory-31335991/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "Basic quality check tasks foreign workers often do in Japanese factories quality check inspection defects japan factory worker",
+      "file": "images/articles/factory-quality-check-basics.jpg",
+      "sha256": "5c6007664c80f80a73a851668185d22dea7d8d9050d47a428d0e794a2bae0353",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-09T05:49:50.485Z"
+    },
+    {
       "slug": "factory-report-contact-consult-basics",
       "provider": "pexels",
       "photoId": 36766694,
