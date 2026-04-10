@@ -9,6 +9,12 @@ const DEFAULT_TOPIC_OUTPUT = path.join("drafts", "topic.json");
 const DEFAULT_ARTICLE_INPUT = path.join("drafts", "article.json");
 const DEFAULT_ARTICLE_SKILL_PATH = ".claude/skills/generate-article/SKILL.md";
 const DEFAULT_GPT_MODEL = process.env.OPENAI_MODEL || "gpt-5";
+const RUN_MODE_SINGLE = "single";
+const RUN_MODE_UNTIL_CLAUDE_LIMIT = "until-claude-limit";
+const SUPPORTED_RUN_MODES = new Set([
+  RUN_MODE_SINGLE,
+  RUN_MODE_UNTIL_CLAUDE_LIMIT,
+]);
 const ARCHIVE_ARTICLES_DIR = path.join("archive", "articles");
 const ARCHIVE_TOPICS_DIR = path.join("archive", "topics");
 const SCRIPTS = {
@@ -18,6 +24,7 @@ const SCRIPTS = {
   markTopicUsed: path.join("scripts", "mark-topic-used.js"),
   fetchArticleImage: path.join("scripts", "fetch-article-image.js"),
   generateWithOpenAI: path.join("scripts", "generate-with-openai.js"),
+  replenishTopicsWithClaude: path.join("scripts", "replenish-topics-with-claude.js"),
 };
 
 function parseArgs(argv) {
@@ -26,6 +33,7 @@ function parseArgs(argv) {
     articleInput: DEFAULT_ARTICLE_INPUT,
     skipBuildPublished: false,
     generateWithClaude: false,
+    runMode: RUN_MODE_SINGLE,
     fetchImageWithPexels: true,
     waitForArticle: false,
     skillPath: DEFAULT_ARTICLE_SKILL_PATH,
@@ -33,6 +41,10 @@ function parseArgs(argv) {
     gptModel: DEFAULT_GPT_MODEL,
     gptTimeoutMs: 420000,
     gptFallback: true,
+    stopOnClaudeLimit: false,
+    autoReplenishTopics: true,
+    replenishTopicCount: 100,
+    replenishTimeoutMs: 420000,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -57,6 +69,23 @@ function parseArgs(argv) {
 
     if (arg === "--generate-with-claude") {
       options.generateWithClaude = true;
+      continue;
+    }
+
+    if (arg === "--run-mode") {
+      const runMode = readOptionValue(argv, index, "--run-mode").trim().toLowerCase();
+      if (!SUPPORTED_RUN_MODES.has(runMode)) {
+        throw new Error(
+          `--run-mode must be one of: ${Array.from(SUPPORTED_RUN_MODES).join(", ")}`
+        );
+      }
+      options.runMode = runMode;
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--until-claude-limit") {
+      options.runMode = RUN_MODE_UNTIL_CLAUDE_LIMIT;
       continue;
     }
 
@@ -114,6 +143,38 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (arg === "--auto-replenish-topics") {
+      options.autoReplenishTopics = true;
+      continue;
+    }
+
+    if (arg === "--no-auto-replenish-topics") {
+      options.autoReplenishTopics = false;
+      continue;
+    }
+
+    if (arg === "--replenish-topic-count") {
+      const countText = readOptionValue(argv, index, "--replenish-topic-count");
+      const parsed = Number.parseInt(countText, 10);
+      if (!Number.isFinite(parsed) || parsed <= 0 || parsed > 500) {
+        throw new Error("--replenish-topic-count must be an integer between 1 and 500.");
+      }
+      options.replenishTopicCount = parsed;
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--replenish-timeout-ms") {
+      const timeoutText = readOptionValue(argv, index, "--replenish-timeout-ms");
+      const parsed = Number.parseInt(timeoutText, 10);
+      if (!Number.isFinite(parsed) || parsed <= 0) {
+        throw new Error("--replenish-timeout-ms must be a positive integer.");
+      }
+      options.replenishTimeoutMs = parsed;
+      index += 1;
+      continue;
+    }
+
     throw new Error(
       "Unknown argument: " +
         `${arg}\nUsage: node scripts/run-pipeline.js ` +
@@ -121,6 +182,8 @@ function parseArgs(argv) {
         "[--article-input drafts/article.json] " +
         "[--skip-build-published] " +
         "[--generate-with-claude] " +
+        "[--run-mode single|until-claude-limit] " +
+        "[--until-claude-limit] " +
         "[--fetch-image-with-pexels] " +
         "[--skip-image-fetch] " +
         "[--wait-for-article] " +
@@ -128,7 +191,11 @@ function parseArgs(argv) {
         "[--claude-timeout-ms 420000] " +
         "[--gpt-model gpt-5] " +
         "[--gpt-timeout-ms 420000] " +
-        "[--no-gpt-fallback]"
+        "[--no-gpt-fallback] " +
+        "[--auto-replenish-topics] " +
+        "[--no-auto-replenish-topics] " +
+        "[--replenish-topic-count 100] " +
+        "[--replenish-timeout-ms 420000]"
     );
   }
 
@@ -836,6 +903,52 @@ function runClaudeGenerate(
   console.log(`Saved article JSON: ${path.relative(repoRoot, articlePath)}`);
 }
 
+function isClaudeLimitError(error) {
+  if (!error || typeof error.message !== "string") {
+    return false;
+  }
+
+  const text = error.message;
+  const hasClaudeContext = /claude|anthropic/i.test(text);
+  if (!hasClaudeContext) {
+    return false;
+  }
+
+  const patterns = [
+    /you(?:'|\u2019)?ve hit your limit/i,
+    /\busage limit\b/i,
+    /\brate limit\b/i,
+    /\brequest limit\b/i,
+    /too many requests/i,
+    /\bquota exceeded\b/i,
+  ];
+
+  return patterns.some((pattern) => pattern.test(text));
+}
+
+function isTopicPoolExhaustedError(error) {
+  if (!error || typeof error.message !== "string") {
+    return false;
+  }
+
+  const text = error.message;
+  const patterns = [
+    /no unused unpublished topics available/i,
+    /no unused topics available/i,
+  ];
+
+  return patterns.some((pattern) => pattern.test(text));
+}
+
+function replenishTopicsWithClaude(repoRoot, options) {
+  runNodeScript(repoRoot, SCRIPTS.replenishTopicsWithClaude, [
+    "--count",
+    String(options.replenishTopicCount),
+    "--timeout-ms",
+    String(options.replenishTimeoutMs),
+  ]);
+}
+
 function shouldFallbackToGpt(error) {
   if (!error || typeof error.message !== "string") {
     return false;
@@ -910,6 +1023,9 @@ function runArticleGenerateWithFallback(
       options.claudeTimeoutMs
     );
   } catch (error) {
+    if (options.stopOnClaudeLimit && isClaudeLimitError(error)) {
+      throw error;
+    }
     if (!options.gptFallback || !shouldFallbackToGpt(error)) {
       throw error;
     }
@@ -1038,6 +1154,29 @@ function runPublishAndPostSteps(repoRoot, options, topicOutputPath, articleInput
   });
 }
 
+function runSelectTopicStep(repoRoot, options, topicOutputPath, completedSteps) {
+  const selectTopic = () => {
+    runNodeScript(repoRoot, SCRIPTS.selectTopic, ["--output", options.topicOutput]);
+    assertFileExists(topicOutputPath, "topic output");
+  };
+
+  try {
+    runStep("select-topic", "Select topic", completedSteps, selectTopic);
+  } catch (error) {
+    if (!options.autoReplenishTopics || !isTopicPoolExhaustedError(error)) {
+      throw error;
+    }
+
+    console.warn(
+      "Topic pool exhausted. Replenishing topics with Claude, then retrying topic selection."
+    );
+    runStep("replenish-topics", "Replenish topics with Claude", completedSteps, () => {
+      replenishTopicsWithClaude(repoRoot, options);
+    });
+    runStep("select-topic", "Select topic", completedSteps, selectTopic);
+  }
+}
+
 function runFetchImageStep(repoRoot, options, articleInputPath, completedSteps) {
   if (!options.fetchImageWithPexels) {
     console.log("Skipped: fetch-image-with-pexels (--skip-image-fetch)");
@@ -1055,9 +1194,7 @@ function runFetchImageStep(repoRoot, options, articleInputPath, completedSteps) 
   });
 }
 
-function runPipeline() {
-  const options = parseArgs(process.argv.slice(2));
-  const repoRoot = process.cwd();
+function runPipelineOnce(repoRoot, options) {
   const topicOutputPath = path.resolve(repoRoot, options.topicOutput);
   const articleInputPath = path.resolve(repoRoot, options.articleInput);
   const completedSteps = [];
@@ -1071,10 +1208,7 @@ function runPipeline() {
   }
 
   if (options.generateWithClaude) {
-    runStep("select-topic", "Select topic", completedSteps, () => {
-      runNodeScript(repoRoot, SCRIPTS.selectTopic, ["--output", options.topicOutput]);
-      assertFileExists(topicOutputPath, "topic output");
-    });
+    runSelectTopicStep(repoRoot, options, topicOutputPath, completedSteps);
 
     runStep(
       "generate-with-claude",
@@ -1103,10 +1237,7 @@ function runPipeline() {
   }
 
   if (!fs.existsSync(articleInputPath)) {
-    runStep("select-topic", "Select topic", completedSteps, () => {
-      runNodeScript(repoRoot, SCRIPTS.selectTopic, ["--output", options.topicOutput]);
-      assertFileExists(topicOutputPath, "topic output");
-    });
+    runSelectTopicStep(repoRoot, options, topicOutputPath, completedSteps);
 
     if (options.waitForArticle) {
       assertArticleSkillExists(repoRoot, options.skillPath);
@@ -1165,6 +1296,71 @@ function runPipeline() {
   console.log("");
   console.log("Pipeline completed successfully.");
   console.log(`Completed steps: ${completedSteps.join(" -> ")}`);
+}
+
+function runUntilClaudeLimit(repoRoot, options) {
+  if (!options.generateWithClaude) {
+    throw new Error("--run-mode until-claude-limit requires --generate-with-claude.");
+  }
+
+  if (options.waitForArticle) {
+    throw new Error(
+      "--run-mode until-claude-limit cannot be combined with --wait-for-article."
+    );
+  }
+
+  const loopOptions = {
+    ...options,
+    stopOnClaudeLimit: true,
+    gptFallback: false,
+  };
+  let completedArticles = 0;
+
+  if (options.gptFallback) {
+    console.log(
+      "Info: GPT fallback is disabled in until-claude-limit mode so this run uses Claude only."
+    );
+  }
+
+  while (true) {
+    console.log("");
+    console.log(
+      `=== Continuous run ${completedArticles + 1} (${RUN_MODE_UNTIL_CLAUDE_LIMIT}) ===`
+    );
+
+    try {
+      runPipelineOnce(repoRoot, loopOptions);
+      completedArticles += 1;
+    } catch (error) {
+      if (isClaudeLimitError(error)) {
+        console.log("");
+        console.log("Claude limit reached. Stopping continuous run.");
+        console.log(`Articles completed before limit: ${completedArticles}`);
+        return;
+      }
+
+      if (isTopicPoolExhaustedError(error)) {
+        console.log("");
+        console.log("No unused topics remaining. Stopping continuous run.");
+        console.log(`Articles completed before topic exhaustion: ${completedArticles}`);
+        return;
+      }
+
+      throw error;
+    }
+  }
+}
+
+function runPipeline() {
+  const options = parseArgs(process.argv.slice(2));
+  const repoRoot = process.cwd();
+
+  if (options.runMode === RUN_MODE_UNTIL_CLAUDE_LIMIT) {
+    runUntilClaudeLimit(repoRoot, options);
+    return;
+  }
+
+  runPipelineOnce(repoRoot, options);
 }
 
 function main() {
