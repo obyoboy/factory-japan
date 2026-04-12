@@ -198,6 +198,20 @@
       "downloadedAt": "2026-04-08T18:37:30.893Z"
     },
     {
+      "slug": "factory-hand-over-notes",
+      "provider": "pexels",
+      "photoId": 31199532,
+      "photoPageUrl": "https://www.pexels.com/photo/female-factory-worker-recording-data-in-warehouse-31199532/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "How shift handover notes work in Japanese factories handover notes shift japan factory worker",
+      "file": "images/articles/factory-hand-over-notes.jpg",
+      "sha256": "6c310bb1cdf480fd83f81a7c0cb3e08f63cacfabdf0ed63deb51d6b09a7330b4",
+      "width": 6000,
+      "height": 4000,
+      "downloadedAt": "2026-04-12T02:27:09.770Z"
+    },
+    {
       "slug": "factory-how-supervisors-evaluate-workers",
       "provider": "pexels",
       "photoId": 8246480,
