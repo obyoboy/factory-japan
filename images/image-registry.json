@@ -30,6 +30,20 @@
       "downloadedAt": "2026-04-04T10:12:26.814Z"
     },
     {
+      "slug": "factory-bad-weather-commute",
+      "provider": "pexels",
+      "photoId": 31376702,
+      "photoPageUrl": "https://www.pexels.com/photo/commuters-descend-tokyo-subway-stairs-31376702/",
+      "photographer": "João Mira",
+      "photographerUrl": "https://www.pexels.com/@joao-mira-2150881975",
+      "query": "What to do when bad weather affects your factory commute in Japan weather commute delay japan factory worker",
+      "file": "images/articles/factory-bad-weather-commute.jpg",
+      "sha256": "6ea2acec5bdcebb1df722901c5862b04af64fc0af76337b979f811d4846443a9",
+      "width": 3984,
+      "height": 2240,
+      "downloadedAt": "2026-04-13T20:21:12.214Z"
+    },
+    {
       "slug": "factory-bicycle-commuting-rules",
       "provider": "pexels",
       "photoId": 15125378,
