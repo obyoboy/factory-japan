@@ -534,6 +534,20 @@
       "downloadedAt": "2026-04-19T12:08:23.787Z"
     },
     {
+      "slug": "factory-standard-work-basics",
+      "provider": "pexels",
+      "photoId": 32845685,
+      "photoPageUrl": "https://www.pexels.com/photo/industrial-workers-in-control-room-smiling-woman-32845685/",
+      "photographer": "Sergey Sergeev",
+      "photographerUrl": "https://www.pexels.com/@sergey-sergeev-2153675005",
+      "query": "What standard work means in Japanese factory operations standard work procedure operations japan factory worker",
+      "file": "images/articles/factory-standard-work-basics.jpg",
+      "sha256": "d92f1921a9113b2618becba1df0c349b69064ca141e934280654f4872b940f50",
+      "width": 4200,
+      "height": 2794,
+      "downloadedAt": "2026-04-20T04:23:50.732Z"
+    },
+    {
       "slug": "factory-time-card-errors",
       "provider": "pexels",
       "photoId": 23549137,
