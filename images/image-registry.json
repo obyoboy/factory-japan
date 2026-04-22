@@ -602,6 +602,20 @@
       "width": 6000,
       "height": 4000,
       "downloadedAt": "2026-04-05T01:50:24.785Z"
+    },
+    {
+      "slug": "factory-work-speed-vs-accuracy",
+      "provider": "pexels",
+      "photoId": 31199588,
+      "photoPageUrl": "https://www.pexels.com/photo/textile-factory-workers-operating-sewing-machines-31199588/",
+      "photographer": "EqualStock IN",
+      "photographerUrl": "https://www.pexels.com/@equalstock",
+      "query": "How to balance work speed and accuracy in a Japanese factory speed accuracy work quality japan factory worker",
+      "file": "images/articles/factory-work-speed-vs-accuracy.jpg",
+      "sha256": "39c75f9335c6b9bb157b4fff8631e5cada7e1d93c0a10e83e0964d99f9070c1a",
+      "width": 3744,
+      "height": 2496,
+      "downloadedAt": "2026-04-22T07:09:05.723Z"
     }
   ]
 }
